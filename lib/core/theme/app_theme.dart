@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  // Primary Colors - Zen and minimalist
-  static const Color background = Color(0xFFFAFAFA); // Warm white
+  // Primary Colors - Warm and calming
+  static const Color background = Color(0xFFFBF8F3); // Warm cream white
   static const Color surface = Color(0xFFFFFFFF); // Pure white
-  static const Color surfaceElevated = Color(0xFFF5F5F5); // Slightly elevated
+  static const Color surfaceElevated = Color(0xFFF7F3ED); // Warm beige
 
-  // Text Colors - Soft and readable
-  static const Color textPrimary = Color(0xFF2D2D2D); // Warm dark gray
-  static const Color textSecondary = Color(0xFF757575); // Medium gray
-  static const Color textTertiary = Color(0xFFBDBDBD); // Light gray
+  // Text Colors - Warm grays
+  static const Color textPrimary = Color(0xFF3A3A3A); // Warm dark gray
+  static const Color textSecondary = Color(0xFF6B6B6B); // Medium warm gray
+  static const Color textTertiary = Color(0xFF9E9E9E); // Light warm gray
 
-  // Accent Colors - Minimal and calming
-  static const Color accent = Color(0xFF6B73FF); // Soft purple
-  static const Color accentSoft = Color(0xFFF0F1FF); // Very light purple
+  // Accent Colors - Warm and earthy
+  static const Color accent = Color(0xFFD4A574); // Warm golden brown
+  static const Color accentSoft = Color(0xFFF5EFDF); // Very light warm beige
 
-  // Semantic Colors - Subtle
-  static const Color success = Color(0xFF4CAF50);
-  static const Color warning = Color(0xFFFF9800);
-  static const Color error = Color(0xFFE57373); // Softer red
+  // Semantic Colors - Warmer tones
+  static const Color success = Color(0xFF7BA05B); // Warm green
+  static const Color warning = Color(0xFFE49B3F); // Warm orange
+  static const Color error = Color(0xFFD17666); // Warm red
 
-  // Dividers and Borders - Almost invisible
-  static const Color divider = Color(0xFFF0F0F0);
-  static const Color borderLight = Color(0xFFE8E8E8);
+  // Dividers and Borders - Warm tones
+  static const Color divider = Color(0xFFEDE5D8);
+  static const Color borderLight = Color(0xFFE1D5C7);
 
-  // Shadows - Very subtle
-  static const Color shadowColor = Color(0x08000000);
+  // Shadows - Very subtle warm
+  static const Color shadowColor = Color(0x0A3A3A3A);
 }
 
 class AppSpacing {
@@ -39,20 +39,22 @@ class AppSpacing {
 }
 
 class AppRadius {
-  // Consistent border radius
-  static const double sm = 8.0;
-  static const double md = 12.0;
-  static const double lg = 16.0;
-  static const double xl = 24.0;
+  // Less rounded, more material
+  static const double xs = 2.0;
+  static const double sm = 4.0;
+  static const double md = 6.0;
+  static const double lg = 8.0;
+  static const double xl = 12.0;
 }
 
 class AppTextStyles {
-  // Consistent typography
+  // Consistent typography with warmer feel
   static const TextStyle heading1 = TextStyle(
     fontSize: 28,
     fontWeight: FontWeight.w600,
     color: AppColors.textPrimary,
     height: 1.2,
+    letterSpacing: -0.5,
   );
 
   static const TextStyle heading2 = TextStyle(
@@ -60,6 +62,7 @@ class AppTextStyles {
     fontWeight: FontWeight.w600,
     color: AppColors.textPrimary,
     height: 1.3,
+    letterSpacing: -0.3,
   );
 
   static const TextStyle heading3 = TextStyle(
@@ -67,6 +70,7 @@ class AppTextStyles {
     fontWeight: FontWeight.w600,
     color: AppColors.textPrimary,
     height: 1.3,
+    letterSpacing: -0.2,
   );
 
   static const TextStyle bodyLarge = TextStyle(
@@ -74,6 +78,7 @@ class AppTextStyles {
     fontWeight: FontWeight.w400,
     color: AppColors.textPrimary,
     height: 1.5,
+    letterSpacing: 0.1,
   );
 
   static const TextStyle bodyMedium = TextStyle(
@@ -81,6 +86,7 @@ class AppTextStyles {
     fontWeight: FontWeight.w400,
     color: AppColors.textPrimary,
     height: 1.5,
+    letterSpacing: 0.1,
   );
 
   static const TextStyle bodySmall = TextStyle(
@@ -88,6 +94,7 @@ class AppTextStyles {
     fontWeight: FontWeight.w400,
     color: AppColors.textSecondary,
     height: 1.4,
+    letterSpacing: 0.2,
   );
 
   static const TextStyle caption = TextStyle(
@@ -95,6 +102,7 @@ class AppTextStyles {
     fontWeight: FontWeight.w400,
     color: AppColors.textTertiary,
     height: 1.4,
+    letterSpacing: 0.3,
   );
 
   static const TextStyle label = TextStyle(
@@ -102,38 +110,39 @@ class AppTextStyles {
     fontWeight: FontWeight.w500,
     color: AppColors.textSecondary,
     height: 1.4,
+    letterSpacing: 0.2,
   );
 }
 
 class AppShadows {
-  // Subtle shadows for zen aesthetic
+  // Subtle warm shadows
   static const List<BoxShadow> soft = [
     BoxShadow(
       color: AppColors.shadowColor,
-      blurRadius: 8,
-      offset: Offset(0, 2),
+      blurRadius: 6,
+      offset: Offset(0, 1),
     ),
   ];
 
   static const List<BoxShadow> medium = [
     BoxShadow(
       color: AppColors.shadowColor,
-      blurRadius: 16,
-      offset: Offset(0, 4),
+      blurRadius: 12,
+      offset: Offset(0, 2),
     ),
   ];
 
   static const List<BoxShadow> large = [
     BoxShadow(
       color: AppColors.shadowColor,
-      blurRadius: 24,
-      offset: Offset(0, 8),
+      blurRadius: 20,
+      offset: Offset(0, 4),
     ),
   ];
 }
 
 class AppTheme {
-  // Main theme configuration
+  // Main theme configuration with warm, material design
   static ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,
@@ -147,23 +156,67 @@ class AppTheme {
       appBarTheme: const AppBarTheme(
         backgroundColor: AppColors.surface,
         elevation: 0,
-        scrolledUnderElevation: 0,
+        scrolledUnderElevation: 1,
+        shadowColor: AppColors.shadowColor,
         titleTextStyle: AppTextStyles.heading3,
         iconTheme: IconThemeData(color: AppColors.textPrimary),
       ),
       cardTheme: CardThemeData(
         color: AppColors.surface,
-        elevation: 0,
-        shadowColor: Colors.transparent,
+        elevation: 1,
+        shadowColor: AppColors.shadowColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppRadius.md),
-          side: const BorderSide(color: AppColors.divider, width: 1),
+          side: const BorderSide(color: AppColors.divider, width: 0.5),
         ),
       ),
-      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: AppColors.accent,
         foregroundColor: Colors.white,
-        elevation: 4,
+        elevation: 3,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadius.lg),
+        ),
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          elevation: 1,
+          shadowColor: AppColors.shadowColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppRadius.sm),
+          ),
+        ),
+      ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppRadius.sm),
+          ),
+        ),
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppRadius.sm),
+          ),
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppRadius.sm),
+          borderSide: const BorderSide(color: AppColors.borderLight),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppRadius.sm),
+          borderSide: const BorderSide(color: AppColors.borderLight),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(AppRadius.sm),
+          borderSide: const BorderSide(color: AppColors.accent, width: 1.5),
+        ),
+        filled: true,
+        fillColor: AppColors.surfaceElevated,
+        contentPadding: const EdgeInsets.all(AppSpacing.md),
       ),
       dividerColor: AppColors.divider,
       textTheme: const TextTheme(

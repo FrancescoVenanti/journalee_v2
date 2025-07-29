@@ -18,7 +18,7 @@ class JournalsScreen extends ConsumerWidget {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         title: Text(
-          'My Journals',
+          'Journalee',
           style: AppTextStyles.heading3.copyWith(fontWeight: FontWeight.w500),
         ),
         backgroundColor: AppColors.surface,
@@ -123,37 +123,126 @@ class JournalsScreen extends ConsumerWidget {
       List<JournalModel> journals, String currentUserId) {
     if (journals.isEmpty) {
       return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.book_outlined,
-              size: 64,
-              color: AppColors.textTertiary,
-            ),
-            const SizedBox(height: AppSpacing.lg),
-            Text(
-              'Welcome to Journalee',
-              style: AppTextStyles.heading2.copyWith(
-                color: AppColors.textSecondary,
-                fontWeight: FontWeight.w500,
+        child: Padding(
+          padding: const EdgeInsets.all(AppSpacing.xl),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.all(AppSpacing.xl),
+                decoration: BoxDecoration(
+                  color: AppColors.surfaceElevated,
+                  borderRadius: BorderRadius.circular(AppRadius.xl),
+                ),
+                child: Icon(
+                  Icons.book_outlined,
+                  size: 80,
+                  color: AppColors.accent,
+                ),
               ),
-            ),
-            const SizedBox(height: AppSpacing.sm),
-            Text(
-              'Create your first journal to get started',
-              style: AppTextStyles.bodyMedium.copyWith(
-                color: AppColors.textTertiary,
+              const SizedBox(height: AppSpacing.xl),
+              Text(
+                'Welcome to Journalee',
+                style: AppTextStyles.heading1.copyWith(
+                  color: AppColors.textPrimary,
+                  fontWeight: FontWeight.w600,
+                ),
+                textAlign: TextAlign.center,
               ),
-            ),
-            const SizedBox(height: AppSpacing.lg),
-            Text(
-              'or join a shared journal with a code',
-              style: AppTextStyles.bodySmall.copyWith(
-                color: AppColors.textTertiary,
+              const SizedBox(height: AppSpacing.md),
+              Text(
+                'Your personal space for thoughts, ideas, and memories',
+                style: AppTextStyles.bodyLarge.copyWith(
+                  color: AppColors.textSecondary,
+                  height: 1.5,
+                ),
+                textAlign: TextAlign.center,
               ),
-            ),
-          ],
+              const SizedBox(height: AppSpacing.xl),
+
+              // Getting started card
+              Container(
+                padding: const EdgeInsets.all(AppSpacing.lg),
+                decoration: BoxDecoration(
+                  color: AppColors.surface,
+                  borderRadius: BorderRadius.circular(AppRadius.md),
+                  border: Border.all(color: AppColors.divider),
+                  boxShadow: AppShadows.soft,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Getting Started',
+                      style: AppTextStyles.heading3.copyWith(
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    _buildStepItem(
+                      '1',
+                      'Create your first journal',
+                      'Tap the + button below to start writing',
+                      Icons.add_circle_outline,
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    _buildStepItem(
+                      '2',
+                      'Share with others (optional)',
+                      'Make it shared and invite friends with a code',
+                      Icons.share_outlined,
+                    ),
+                    const SizedBox(height: AppSpacing.md),
+                    _buildStepItem(
+                      '3',
+                      'Start journaling',
+                      'Write your thoughts with rich text formatting',
+                      Icons.edit_outlined,
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: AppSpacing.xl),
+
+              // Quick actions
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton.icon(
+                      onPressed: () => _showCreateJournalDialog(context, ref),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.accent,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.all(AppSpacing.md),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(AppRadius.md),
+                        ),
+                      ),
+                      icon: const Icon(Icons.add),
+                      label: const Text('Create Journal'),
+                    ),
+                  ),
+                  const SizedBox(width: AppSpacing.md),
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: () => _showJoinJournalDialog(context, ref),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: AppColors.accent,
+                        side: const BorderSide(color: AppColors.accent),
+                        padding: const EdgeInsets.all(AppSpacing.md),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(AppRadius.md),
+                        ),
+                      ),
+                      icon: const Icon(Icons.group_add),
+                      label: const Text('Join Journal'),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       );
     }
@@ -312,7 +401,7 @@ class JournalsScreen extends ConsumerWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                _buildStatItem(
+                                _buildJournalStatItem(
                                   'Created',
                                   daysSinceCreated == 0
                                       ? 'Today'
@@ -324,7 +413,7 @@ class JournalsScreen extends ConsumerWidget {
                                   height: 40,
                                   color: AppColors.divider,
                                 ),
-                                _buildStatItem(
+                                _buildJournalStatItem(
                                   'Type',
                                   journal.isShared ? 'Shared' : 'Private',
                                   journal.isShared ? Icons.share : Icons.lock,
@@ -359,7 +448,7 @@ class JournalsScreen extends ConsumerWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(
-                            isOwner ? Icons.person : Icons.person_remove_alt_1,
+                            Icons.person,
                             size: 16,
                             color: isOwner
                                 ? AppColors.accent
@@ -431,7 +520,7 @@ class JournalsScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildStatItem(String label, String value, IconData icon) {
+  Widget _buildJournalStatItem(String label, String value, IconData icon) {
     return Column(
       children: [
         Icon(
@@ -452,6 +541,57 @@ class JournalsScreen extends ConsumerWidget {
           style: AppTextStyles.bodySmall.copyWith(
             fontWeight: FontWeight.w600,
             color: AppColors.textPrimary,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildStepItem(
+      String number, String title, String description, IconData icon) {
+    return Row(
+      children: [
+        Container(
+          width: 32,
+          height: 32,
+          decoration: BoxDecoration(
+            color: AppColors.accentSoft,
+            borderRadius: BorderRadius.circular(AppRadius.md),
+          ),
+          child: Center(
+            child: Text(
+              number,
+              style: AppTextStyles.bodyMedium.copyWith(
+                color: AppColors.accent,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(width: AppSpacing.md),
+        Icon(
+          icon,
+          size: 20,
+          color: AppColors.textSecondary,
+        ),
+        const SizedBox(width: AppSpacing.sm),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: AppTextStyles.bodyMedium.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              Text(
+                description,
+                style: AppTextStyles.bodySmall.copyWith(
+                  color: AppColors.textSecondary,
+                ),
+              ),
+            ],
           ),
         ),
       ],
