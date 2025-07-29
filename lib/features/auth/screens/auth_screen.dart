@@ -87,55 +87,54 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(AppSpacing.xl),
+        child: Padding(
+          padding: const EdgeInsets.all(AppSpacing.lg),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const SizedBox(height: AppSpacing.xxl),
-
-              // App branding
-              Center(
-                child: Column(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(AppSpacing.xl),
-                      decoration: BoxDecoration(
-                        color: AppColors.surface,
-                        borderRadius: BorderRadius.circular(AppRadius.xl),
-                        boxShadow: AppShadows.soft,
+              // App branding - flexible top section
+              Expanded(
+                flex: 2,
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(AppSpacing.lg),
+                        decoration: BoxDecoration(
+                          color: AppColors.surface,
+                          borderRadius: BorderRadius.circular(AppRadius.xl),
+                          boxShadow: AppShadows.soft,
+                        ),
+                        child: Icon(
+                          Icons.book,
+                          size: 48,
+                          color: AppColors.accent,
+                        ),
                       ),
-                      child: Icon(
-                        Icons.book,
-                        size: 64,
-                        color: AppColors.accent,
+                      const SizedBox(height: AppSpacing.lg),
+                      Text(
+                        'Journalee',
+                        style: AppTextStyles.heading1.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.textPrimary,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: AppSpacing.xl),
-                    Text(
-                      'Journalee',
-                      style: AppTextStyles.heading1.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.textPrimary,
+                      const SizedBox(height: AppSpacing.sm),
+                      Text(
+                        'Your personal space for thoughts and memories',
+                        style: AppTextStyles.bodyMedium.copyWith(
+                          color: AppColors.textSecondary,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                    ),
-                    const SizedBox(height: AppSpacing.sm),
-                    Text(
-                      'Your personal space for thoughts and memories',
-                      style: AppTextStyles.bodyMedium.copyWith(
-                        color: AppColors.textSecondary,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
 
-              const SizedBox(height: AppSpacing.xxl * 1.5),
-
-              // Auth form
+              // Auth form - fixed size
               Container(
-                padding: const EdgeInsets.all(AppSpacing.xl),
+                padding: const EdgeInsets.all(AppSpacing.lg),
                 decoration: BoxDecoration(
                   color: AppColors.surface,
                   borderRadius: BorderRadius.circular(AppRadius.lg),
@@ -143,7 +142,7 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                   boxShadow: AppShadows.medium,
                 ),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
                       _isSignUp ? 'Create Account' : 'Welcome Back',
@@ -153,18 +152,18 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                       ),
                       textAlign: TextAlign.center,
                     ),
-                    const SizedBox(height: AppSpacing.sm),
+                    const SizedBox(height: AppSpacing.xs),
                     Text(
                       _isSignUp
-                          ? 'Start your journaling journey today'
-                          : 'Sign in to continue your journaling',
+                          ? 'Start your journaling journey'
+                          : 'Sign in to continue',
                       style: AppTextStyles.bodyMedium.copyWith(
                         color: AppColors.textSecondary,
                       ),
                       textAlign: TextAlign.center,
                     ),
 
-                    const SizedBox(height: AppSpacing.xl),
+                    const SizedBox(height: AppSpacing.lg),
 
                     // Email field
                     TextField(
@@ -173,39 +172,39 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                       style: AppTextStyles.bodyMedium,
                       decoration: InputDecoration(
                         labelText: 'Email',
-                        hintText: 'Enter your email address',
                         prefixIcon: Icon(
                           Icons.email_outlined,
                           color: AppColors.textSecondary,
+                          size: 20,
                         ),
                         labelStyle: AppTextStyles.bodyMedium.copyWith(
                           color: AppColors.textSecondary,
                         ),
-                        hintStyle: AppTextStyles.bodyMedium.copyWith(
-                          color: AppColors.textTertiary,
-                        ),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(AppRadius.md),
+                          borderRadius: BorderRadius.circular(AppRadius.sm),
                           borderSide:
                               const BorderSide(color: AppColors.borderLight),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(AppRadius.md),
+                          borderRadius: BorderRadius.circular(AppRadius.sm),
                           borderSide:
                               const BorderSide(color: AppColors.borderLight),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(AppRadius.md),
+                          borderRadius: BorderRadius.circular(AppRadius.sm),
                           borderSide: const BorderSide(
-                              color: AppColors.accent, width: 2),
+                              color: AppColors.accent, width: 1.5),
                         ),
-                        contentPadding: const EdgeInsets.all(AppSpacing.lg),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: AppSpacing.md,
+                          vertical: AppSpacing.sm,
+                        ),
                         filled: true,
                         fillColor: AppColors.surfaceElevated,
                       ),
                     ),
 
-                    const SizedBox(height: AppSpacing.lg),
+                    const SizedBox(height: AppSpacing.md),
 
                     // Password field
                     TextField(
@@ -214,111 +213,116 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                       style: AppTextStyles.bodyMedium,
                       decoration: InputDecoration(
                         labelText: 'Password',
-                        hintText: 'Enter your password',
                         prefixIcon: Icon(
                           Icons.lock_outlined,
                           color: AppColors.textSecondary,
+                          size: 20,
                         ),
                         labelStyle: AppTextStyles.bodyMedium.copyWith(
                           color: AppColors.textSecondary,
                         ),
-                        hintStyle: AppTextStyles.bodyMedium.copyWith(
-                          color: AppColors.textTertiary,
-                        ),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(AppRadius.md),
+                          borderRadius: BorderRadius.circular(AppRadius.sm),
                           borderSide:
                               const BorderSide(color: AppColors.borderLight),
                         ),
                         enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(AppRadius.md),
+                          borderRadius: BorderRadius.circular(AppRadius.sm),
                           borderSide:
                               const BorderSide(color: AppColors.borderLight),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(AppRadius.md),
+                          borderRadius: BorderRadius.circular(AppRadius.sm),
                           borderSide: const BorderSide(
-                              color: AppColors.accent, width: 2),
+                              color: AppColors.accent, width: 1.5),
                         ),
-                        contentPadding: const EdgeInsets.all(AppSpacing.lg),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: AppSpacing.md,
+                          vertical: AppSpacing.sm,
+                        ),
                         filled: true,
                         fillColor: AppColors.surfaceElevated,
                       ),
                     ),
 
-                    const SizedBox(height: AppSpacing.xl),
+                    const SizedBox(height: AppSpacing.lg),
 
                     // Submit button
-                    ElevatedButton(
-                      onPressed: _isLoading ? null : _submit,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.accent,
-                        foregroundColor: Colors.white,
-                        disabledBackgroundColor: AppColors.textTertiary,
-                        padding: const EdgeInsets.all(AppSpacing.lg),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(AppRadius.md),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: _isLoading ? null : _submit,
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.accent,
+                          foregroundColor: Colors.white,
+                          disabledBackgroundColor: AppColors.textTertiary,
+                          padding: const EdgeInsets.symmetric(
+                              vertical: AppSpacing.md),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(AppRadius.sm),
+                          ),
+                          elevation: 1,
                         ),
-                        elevation: 0,
-                      ),
-                      child: _isLoading
-                          ? SizedBox(
-                              height: 20,
-                              width: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                valueColor: AlwaysStoppedAnimation<Color>(
-                                  Colors.white.withOpacity(0.8),
+                        child: _isLoading
+                            ? SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    Colors.white.withOpacity(0.8),
+                                  ),
+                                ),
+                              )
+                            : Text(
+                                _isSignUp ? 'Create Account' : 'Sign In',
+                                style: AppTextStyles.bodyMedium.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white,
                                 ),
                               ),
-                            )
-                          : Text(
-                              _isSignUp ? 'Create Account' : 'Sign In',
-                              style: AppTextStyles.bodyLarge.copyWith(
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                              ),
-                            ),
+                      ),
                     ),
                   ],
                 ),
               ),
 
-              const SizedBox(height: AppSpacing.xl),
-
-              // Switch mode
-              Center(
-                child: TextButton(
-                  onPressed: _isLoading
-                      ? null
-                      : () {
-                          setState(() {
-                            _isSignUp = !_isSignUp;
-                          });
-                        },
-                  style: TextButton.styleFrom(
-                    foregroundColor: AppColors.textSecondary,
-                    padding: const EdgeInsets.all(AppSpacing.md),
-                  ),
-                  child: RichText(
-                    text: TextSpan(
-                      style: AppTextStyles.bodyMedium.copyWith(
-                        color: AppColors.textSecondary,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: _isSignUp
-                              ? 'Already have an account? '
-                              : 'Don\'t have an account? ',
+              // Switch mode - flexible bottom section
+              Expanded(
+                flex: 1,
+                child: Center(
+                  child: TextButton(
+                    onPressed: _isLoading
+                        ? null
+                        : () {
+                            setState(() {
+                              _isSignUp = !_isSignUp;
+                            });
+                          },
+                    style: TextButton.styleFrom(
+                      foregroundColor: AppColors.textSecondary,
+                      padding: const EdgeInsets.all(AppSpacing.md),
+                    ),
+                    child: RichText(
+                      text: TextSpan(
+                        style: AppTextStyles.bodyMedium.copyWith(
+                          color: AppColors.textSecondary,
                         ),
-                        TextSpan(
-                          text: _isSignUp ? 'Sign In' : 'Sign Up',
-                          style: AppTextStyles.bodyMedium.copyWith(
-                            color: AppColors.accent,
-                            fontWeight: FontWeight.w600,
+                        children: [
+                          TextSpan(
+                            text: _isSignUp
+                                ? 'Already have an account? '
+                                : 'Don\'t have an account? ',
                           ),
-                        ),
-                      ],
+                          TextSpan(
+                            text: _isSignUp ? 'Sign In' : 'Sign Up',
+                            style: AppTextStyles.bodyMedium.copyWith(
+                              color: AppColors.accent,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
