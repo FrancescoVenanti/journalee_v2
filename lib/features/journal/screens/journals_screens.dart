@@ -42,7 +42,13 @@ class JournalsScreen extends ConsumerWidget {
         data: (journals) => journals.isEmpty
             ? const EmptyJournalsState()
             : JournalsCarousel(
-                journals: journals, currentUserId: user?.id ?? ''),
+                journals: journals,
+                currentUserId: user?.id ?? '',
+                onDeleteJournal: (journalId) =>
+                    _handleDeleteJournal(context, ref, journalId),
+                onLeaveJournal: (journalId) =>
+                    _handleLeaveJournal(context, ref, journalId),
+              ),
         loading: () => const Center(
           child: CircularProgressIndicator(color: AppColors.accent),
         ),
@@ -52,6 +58,70 @@ class JournalsScreen extends ConsumerWidget {
       ),
       floatingActionButton: const FloatingActionButtons(),
     );
+  }
+
+  Future<void> _handleDeleteJournal(
+      BuildContext context, WidgetRef ref, String journalId) async {
+    try {
+      await ref.read(journalsProvider.notifier).deleteJournal(journalId);
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Journal deleted successfully'),
+            backgroundColor: AppColors.success,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(AppRadius.sm),
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error deleting journal: $e'),
+            backgroundColor: AppColors.error,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(AppRadius.sm),
+            ),
+          ),
+        );
+      }
+    }
+  }
+
+  Future<void> _handleLeaveJournal(
+      BuildContext context, WidgetRef ref, String journalId) async {
+    try {
+      await ref.read(journalsProvider.notifier).leaveJournal(journalId);
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text('Left journal successfully'),
+            backgroundColor: AppColors.success,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(AppRadius.sm),
+            ),
+          ),
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error leaving journal: $e'),
+            backgroundColor: AppColors.error,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(AppRadius.sm),
+            ),
+          ),
+        );
+      }
+    }
   }
 
   void _showSignOutDialog(BuildContext context, WidgetRef ref) {

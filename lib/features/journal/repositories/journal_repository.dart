@@ -112,4 +112,24 @@ class JournalsRepository {
           6, (_) => chars.codeUnitAt(random.nextInt(chars.length))),
     );
   }
+
+  Future<void> deleteJournal(String journalId) async {
+    try {
+      await _client.from('journals').delete().eq('id', journalId);
+    } catch (e) {
+      throw Exception('Failed to delete journal: $e');
+    }
+  }
+
+  Future<void> leaveJournal(String journalId, String userId) async {
+    try {
+      await _client
+          .from('journal_members')
+          .delete()
+          .eq('journal_id', journalId)
+          .eq('user_id', userId);
+    } catch (e) {
+      throw Exception('Failed to leave journal: $e');
+    }
+  }
 }

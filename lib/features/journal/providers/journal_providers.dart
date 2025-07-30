@@ -79,4 +79,40 @@ class JournalsNotifier extends AsyncNotifier<List<JournalModel>> {
       state = AsyncValue.error(e, StackTrace.current);
     }
   }
+
+  Future<void> deleteJournal(String journalId) async {
+    final user = ref.read(authProvider).value;
+    if (user == null) throw Exception('User not authenticated');
+
+    state = const AsyncValue.loading();
+
+    try {
+      final repository = ref.read(journalsRepositoryProvider);
+      await repository.deleteJournal(journalId);
+
+      // Refresh the list
+      final journals = await repository.getUserJournals(user.id);
+      state = AsyncValue.data(journals);
+    } catch (e) {
+      state = AsyncValue.error(e, StackTrace.current);
+    }
+  }
+
+  Future<void> leaveJournal(String journalId) async {
+    final user = ref.read(authProvider).value;
+    if (user == null) throw Exception('User not authenticated');
+
+    state = const AsyncValue.loading();
+
+    try {
+      final repository = ref.read(journalsRepositoryProvider);
+      await repository.leaveJournal(journalId, user.id);
+
+      // Refresh the list
+      final journals = await repository.getUserJournals(user.id);
+      state = AsyncValue.data(journals);
+    } catch (e) {
+      state = AsyncValue.error(e, StackTrace.current);
+    }
+  }
 }

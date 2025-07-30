@@ -179,11 +179,15 @@ class EmptyJournalsState extends ConsumerWidget {
 class JournalsCarousel extends StatelessWidget {
   final List<JournalModel> journals;
   final String currentUserId;
+  final Function(String journalId)? onDeleteJournal;
+  final Function(String journalId)? onLeaveJournal;
 
   const JournalsCarousel({
     super.key,
     required this.journals,
     required this.currentUserId,
+    this.onDeleteJournal,
+    this.onLeaveJournal,
   });
 
   @override
@@ -206,7 +210,16 @@ class JournalsCarousel extends StatelessWidget {
               final isOwner = journal.isOwnedBy(currentUserId);
               return Container(
                 margin: const EdgeInsets.symmetric(horizontal: AppSpacing.sm),
-                child: JournalCard(journal: journal, isOwner: isOwner),
+                child: JournalCard(
+                  journal: journal,
+                  isOwner: isOwner,
+                  onDelete: onDeleteJournal != null && isOwner
+                      ? () => onDeleteJournal!(journal.id)
+                      : null,
+                  onLeave: onLeaveJournal != null && !isOwner
+                      ? () => onLeaveJournal!(journal.id)
+                      : null,
+                ),
               );
             },
           ),
