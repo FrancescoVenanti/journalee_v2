@@ -17,10 +17,10 @@ class AuthNotifier extends StreamNotifier<UserModel?> {
     return repository.authStateChanges;
   }
 
-  Future<void> signUp(String email, String password) async {
+  Future<void> signUp(String email, String password, String username) async {
     try {
       final repository = ref.read(authRepositoryProvider);
-      await repository.signUp(email, password);
+      await repository.signUp(email, password, username);
     } catch (e) {
       throw Exception('Sign up failed: $e');
     }

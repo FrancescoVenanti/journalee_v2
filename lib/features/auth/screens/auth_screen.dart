@@ -13,6 +13,7 @@ class AuthScreen extends ConsumerStatefulWidget {
 class _AuthScreenState extends ConsumerState<AuthScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _usernameController = TextEditingController();
   bool _isSignUp = false;
   bool _isLoading = false;
 
@@ -20,12 +21,23 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _usernameController.dispose();
     super.dispose();
   }
 
   Future<void> _submit() async {
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
       _showError('Please fill in all fields');
+      return;
+    }
+
+    if (_isSignUp && _usernameController.text.isEmpty) {
+      _showError('Please enter a username');
+      return;
+    }
+
+    if (_isSignUp && _usernameController.text.length < 3) {
+      _showError('Username must be at least 3 characters');
       return;
     }
 
@@ -36,14 +48,19 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
 
       if (_isSignUp) {
         await authNotifier.signUp(
-            _emailController.text, _passwordController.text);
+          _emailController.text.trim(),
+          _passwordController.text,
+          _usernameController.text.trim().toLowerCase(),
+        );
         if (mounted) {
           _showSuccess(
               'Account created! Check your email to confirm your account');
         }
       } else {
         await authNotifier.signIn(
-            _emailController.text, _passwordController.text);
+          _emailController.text.trim(),
+          _passwordController.text,
+        );
       }
     } catch (e) {
       if (mounted) {
@@ -203,6 +220,47 @@ class _AuthScreenState extends ConsumerState<AuthScreen> {
                         fillColor: AppColors.surfaceElevated,
                       ),
                     ),
+
+                    // Username field (only show for sign up)
+                    if (_isSignUp) ...[
+                      const SizedBox(height: AppSpacing.md),
+                      TextField(
+                        controller: _usernameController,
+                        style: AppTextStyles.bodyMedium,
+                        decoration: InputDecoration(
+                          labelText: 'Username',
+                          prefixIcon: Icon(
+                            Icons.person_outlined,
+                            color: AppColors.textSecondary,
+                            size: 20,
+                          ),
+                          labelStyle: AppTextStyles.bodyMedium.copyWith(
+                            color: AppColors.textSecondary,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(AppRadius.sm),
+                            borderSide:
+                                const BorderSide(color: AppColors.borderLight),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(AppRadius.sm),
+                            borderSide:
+                                const BorderSide(color: AppColors.borderLight),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(AppRadius.sm),
+                            borderSide: const BorderSide(
+                                color: AppColors.accent, width: 1.5),
+                          ),
+                          contentPadding: const EdgeInsets.symmetric(
+                            horizontal: AppSpacing.md,
+                            vertical: AppSpacing.sm,
+                          ),
+                          filled: true,
+                          fillColor: AppColors.surfaceElevated,
+                        ),
+                      ),
+                    ],
 
                     const SizedBox(height: AppSpacing.md),
 

@@ -182,7 +182,7 @@ class EntriesScreen extends ConsumerWidget {
                               ),
                               const SizedBox(width: AppSpacing.xs),
                               Text(
-                                isAuthor ? 'You' : 'Member',
+                                isAuthor ? 'You' : entry.authorDisplayName,
                                 style: AppTextStyles.caption.copyWith(
                                   color: isAuthor
                                       ? AppColors.accent

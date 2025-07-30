@@ -4,6 +4,8 @@ class EntryModel {
   final String authorId;
   final String content;
   final DateTime createdAt;
+  final String? authorUsername;
+  final String? authorEmail;
 
   const EntryModel({
     required this.id,
@@ -11,6 +13,8 @@ class EntryModel {
     required this.authorId,
     required this.content,
     required this.createdAt,
+    this.authorUsername,
+    this.authorEmail,
   });
 
   factory EntryModel.fromSupabaseRow(Map<String, dynamic> row) {
@@ -20,6 +24,8 @@ class EntryModel {
       authorId: row['author_id'] as String,
       content: row['content'] as String,
       createdAt: DateTime.parse(row['created_at'] as String),
+      authorUsername: row['author_username'] as String?,
+      authorEmail: row['author_email'] as String?,
     );
   }
 
@@ -30,6 +36,8 @@ class EntryModel {
       'author_id': authorId,
       'content': content,
       'created_at': createdAt.toIso8601String(),
+      'author_username': authorUsername,
+      'author_email': authorEmail,
     };
   }
 
@@ -40,10 +48,22 @@ class EntryModel {
       authorId: json['author_id'] as String,
       content: json['content'] as String,
       createdAt: DateTime.parse(json['created_at'] as String),
+      authorUsername: json['author_username'] as String?,
+      authorEmail: json['author_email'] as String?,
     );
   }
 
   bool isAuthoredBy(String userId) => authorId == userId;
+
+  String get authorDisplayName {
+    if (authorUsername != null && authorUsername!.isNotEmpty) {
+      return authorUsername!;
+    }
+    if (authorEmail != null && authorEmail!.isNotEmpty) {
+      return authorEmail!;
+    }
+    return 'Unknown';
+  }
 
   String get preview {
     if (content.length <= 50) return content;

@@ -8,11 +8,24 @@ class EntriesRepository {
     try {
       final response = await _client
           .from('entries')
-          .select()
+          .select('''
+            *,
+            profiles:author_id (
+              username,
+              email
+            )
+          ''')
           .eq('journal_id', journalId)
           .order('created_at', ascending: false);
 
-      return response.map((row) => EntryModel.fromSupabaseRow(row)).toList();
+      return response.map((row) {
+        final profile = row['profiles'] as Map<String, dynamic>?;
+        return EntryModel.fromSupabaseRow({
+          ...row,
+          'author_username': profile?['username'],
+          'author_email': profile?['email'],
+        });
+      }).toList();
     } catch (e) {
       throw Exception('Failed to fetch entries: $e');
     }
