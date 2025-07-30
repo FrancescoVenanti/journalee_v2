@@ -43,44 +43,46 @@ class EntriesScreen extends ConsumerWidget {
         ],
       ),
       body: entriesAsync.when(
-        data: (entries) =>
-            _buildEntriesList(context, ref, entries, user?.id ?? ''),
-        loading: () => const Center(
-          child: CircularProgressIndicator(color: AppColors.accent),
-        ),
-        error: (error, stack) => Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.error_outline,
-                size: 48,
-                color: AppColors.textTertiary,
+          data: (entries) =>
+              _buildEntriesList(context, ref, entries, user?.id ?? ''),
+          loading: () => const Center(
+                child: CircularProgressIndicator(color: AppColors.accent),
               ),
-              const SizedBox(height: AppSpacing.md),
-              Text(
-                'Something went wrong',
-                style: AppTextStyles.bodyMedium.copyWith(
-                  color: AppColors.textSecondary,
-                ),
-              ),
-              const SizedBox(height: AppSpacing.sm),
-              ElevatedButton(
-                onPressed: () =>
-                    ref.read(entriesProvider(journalId).notifier).refresh(),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.accent,
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(AppRadius.sm),
+          error: (error, stack) {
+            debugPrint(error.toString());
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.error_outline,
+                    size: 48,
+                    color: AppColors.textTertiary,
                   ),
-                ),
-                child: const Text('Try Again'),
+                  const SizedBox(height: AppSpacing.md),
+                  Text(
+                    'Something went wrong',
+                    style: AppTextStyles.bodyMedium.copyWith(
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
+                  const SizedBox(height: AppSpacing.sm),
+                  ElevatedButton(
+                    onPressed: () =>
+                        ref.read(entriesProvider(journalId).notifier).refresh(),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.accent,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(AppRadius.sm),
+                      ),
+                    ),
+                    child: const Text('Try Again'),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
-      ),
+            );
+          }),
       floatingActionButton: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppRadius.md),
