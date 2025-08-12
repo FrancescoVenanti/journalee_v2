@@ -26,6 +26,7 @@ dependencies:
   # UI
   cupertino_icons: ^1.0.2
   flutter_quill: ^11.4.2
+  flutter_launcher_icons: ^0.14.4
 
 dev_dependencies:
   flutter_test:
@@ -38,3 +39,12 @@ flutter:
   # Add .env file to assets
   assets:
     - .env
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/j_icon.png"
+  windows:
+    generate: true
+    image_path: "assets/j_icon.png"
+    icon_size: 48
